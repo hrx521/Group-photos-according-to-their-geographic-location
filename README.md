@@ -33,6 +33,7 @@ POS file is required to be in CVS format or TXT format with half width comma as 
 Some explanations:
 [distance tolerance] (unit: m)
 It refers to calculating the earth arc length from the longitude and latitude information of two pictures, and the arc length is the distance between them. When the distance between them is less than the value of the parameter [distance tolerance], they should belong to the same group.
+
 [defects in the procedure]
 1. When calculating the arc length of two points on the sphere, the radius of the ball adopts a fixed constant of 6378137. In fact, the radius of the ball varies with the height from the earth's center, so it is not accurate here.
 2. Bubble method is used for recursion calculation in the algorithm of executing grouping, which has a large amount of calculation, and there is still a lot of room for performance improvement.
