@@ -1,3 +1,4 @@
+winForm应用程序，开发环境：.net5. vs2019 Preview 版本 16.9.0 Preview 2.0
 # GroupImages
 把多张图片依据Gps的经纬度信息算出它们之间的距离，并按指定的距离容差进行分组。
 
@@ -21,6 +22,7 @@
 
 
 Englishi below:
+WinForm application, development environment: net5. Vs2019 preview version 16.9.0 preview 2.0
 
 The distance between the images is calculated according to the longitude and latitude information of GPS, and grouped according to the specified distance tolerance.
 There are two ways to read GPS information:
