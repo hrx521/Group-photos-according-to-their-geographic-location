@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp1
+namespace GroupImages
 {
     static class Program
     {

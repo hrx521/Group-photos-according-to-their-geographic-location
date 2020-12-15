@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp1
+namespace GroupImages
 {
     /*
     照片的经纬度信息，是以度分秒的格式展示的（度分秒之间以“；”间隔），为了方便定位，
@@ -49,23 +49,23 @@ namespace WindowsFormsApp1
         /// </summary>
         public double Latitude { get; set; }
     }
-    public class ChoseServiceProcessChanged:EventArgs
+    public class GroupServiceProcessChanged:EventArgs
     {
         private readonly string processText;
 
-        public ChoseServiceProcessChanged(string processText)
+        public GroupServiceProcessChanged(string processText)
         {
             this.processText = processText;
         }
         public string ProcessText { get; private set; }
     }
-    public class ChoseService
+    public class GroupService
     {
-        private ChoseService()
+        private GroupService()
         {
 
         }
-        public ChoseService(string directorySource, string DirectoryDest, int tolorence, bool isCopy = true)
+        public GroupService(string directorySource, string DirectoryDest, int tolorence, bool isCopy = true)
         {
             this.directorySource = directorySource;
             this.directoryDest = DirectoryDest;
@@ -90,9 +90,9 @@ namespace WindowsFormsApp1
                 Console.WriteLine(_discription);
             } 
         }
-        public static Action<object,ChoseServiceProcessChanged> UpdateProcess;
+        public static Action<object,GroupServiceProcessChanged> UpdateProcess;
 
-        public async Task<ChoseService> ExcuteGroup()
+        public async Task<GroupService> ExcuteGroup()
         {
             Discription = "正在读取文件GPS信息。。。";
             List<ImageInfo> imageInfos = await GetImagesInfo(this.directorySource);
@@ -376,92 +376,6 @@ namespace WindowsFormsApp1
             GetGroupList(restImageInfos,ref groups);
 
         }
-
-
-
-        #region 获取图片中的GPS坐标点的算法2
-        /// <summary>
-        /// 获取图片中的GPS坐标点
-        /// </summary>
-        /// <param name="jpgPath">图片路径</param>
-        /// <returns>返回坐标【纬度+经度】用"+"分割 取数组中第0和1个位bai置的值</returns>
-        private String fnGPSLocation(String jpgPath)
-        {
-            String s_GPSLocation = "";
-            //载入图片
-            Image objImage = Image.FromFile(jpgPath);
-            //取得所有的属性(以PropertyId做排序)
-            var propertyItems = objImage.PropertyItems.OrderBy(x => x.Id);
-            //暂定纬度N(北纬)
-            char chrGPSLatitudeRef = 'N';
-            //暂定经度为E(东经)
-            char chrGPSLongitudeRef = 'E';
-            foreach (PropertyItem objItem in propertyItems)
-            {
-                //只取Id范围为0x0000到0x001e
-                if (objItem.Id >= 0x0000 && objItem.Id <= 0x001e)
-                {
-                    objItem.Id = 0x0002;
-                    switch (objItem.Id)
-                    {
-                        case 0x0000:
-                            var query = from tmpb in objItem.Value select tmpb.ToString();
-                            string sreVersion = string.Join(".", query.ToArray());
-                            break;
-                        case 0x0001:
-                            chrGPSLatitudeRef = BitConverter.ToChar(objItem.Value, 0);
-                            break;
-                        case 0x0002:
-                            if (objItem.Value.Length == 24)
-                            {
-                                //degrees(将byte[0]~byte[3]转成uint, 除以byte[4]~byte[7]转成的uint)
-                                double d = BitConverter.ToUInt32(objItem.Value, 0) * 1.0d / BitConverter.ToUInt32(objItem.Value, 4);
-                                //minutes(将byte[8]~byte[11]转成uint, 除以byte[12]~byte[15]转成的uint)
-                                double m = BitConverter.ToUInt32(objItem.Value, 8) * 1.0d / BitConverter.ToUInt32(objItem.Value, 12);
-                                //seconds(将byte[16]~byte[19]转成uint, 除以byte[20]~byte[23]转成的uint)
-                                double s = BitConverter.ToUInt32(objItem.Value, 16) * 1.0d / BitConverter.ToUInt32(objItem.Value, 20);
-                                //计算经纬度数值, 如果是南纬, 要乘上(-1)
-                                double dblGPSLatitude = (((s / 60 + m) / 60) + d) * (chrGPSLatitudeRef.Equals('N') ? 1 : -1);
-                                string strLatitude = string.Format("{0:#} deg {1:#}' {2:#.00}\" {3}", d
-                                , m, s, chrGPSLatitudeRef);
-                                //纬度+经度
-                                s_GPSLocation += dblGPSLatitude + "+";
-                            }
-                            break;
-                        case 0x0003:
-                            //透过BitConverter, 将Value转成Char('E' / 'W')
-                            //此值在后续的Longitude计算上会用到
-                            chrGPSLongitudeRef = BitConverter.ToChar(objItem.Value, 0);
-                            break;
-                        case 0x0004:
-                            if (objItem.Value.Length == 24)
-                            {
-                                //degrees(将byte[0]~byte[3]转成uint, 除以byte[4]~byte[7]转成的uint)
-                                double d = BitConverter.ToUInt32(objItem.Value, 0) * 1.0d / BitConverter.ToUInt32(objItem.Value, 4);
-                                //minutes(将byte[8]~byte[11]转成uint, 除以byte[12]~byte[15]转成的uint)
-                                double m = BitConverter.ToUInt32(objItem.Value, 8) * 1.0d / BitConverter.ToUInt32(objItem.Value, 12);
-                                //seconds(将byte[16]~byte[19]转成uint, 除以byte[20]~byte[23]转成的uint)
-                                double s = BitConverter.ToUInt32(objItem.Value, 16) * 1.0d / BitConverter.ToUInt32(objItem.Value, 20);
-                                //计算精度的数值, 如果是西经, 要乘上(-1)
-                                double dblGPSLongitude = (((s / 60 + m) / 60) + d) * (chrGPSLongitudeRef.Equals('E') ? 1 : -1);
-                            }
-                            break;
-                        case 0x0005:
-                            string strAltitude = BitConverter.ToBoolean(objItem.Value, 0) ? "0" : "1";
-                            break;
-                        case 0x0006:
-                            if (objItem.Value.Length == 8)
-                            {
-                                //将byte[0]~byte[3]转成uint, 除以byte[4]~byte[7]转成的uint
-                                double dblAltitude = BitConverter.ToUInt32(objItem.Value, 0) * 1.0d / BitConverter.ToUInt32(objItem.Value, 4);
-                            }
-                            break;
-                    }
-                }
-            }
-            return s_GPSLocation;
-        }
-        #endregion
 
     }
 

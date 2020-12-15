@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp1
+namespace GroupImages
 {
     public partial class Form1 : Form
     {
@@ -101,7 +101,7 @@ namespace WindowsFormsApp1
                 pictureBoxProcess.Visible = true;
                 buttonExcuteGroup.Enabled = false;
                 labelProcess.Text = "开始挑拣。。。";
-                var choseService = new ChoseService(textBoxSource.Text, textBoxDest.Text, Convert.ToInt32(textBoxTolerence.Text.Trim()), (comboBox1.SelectedIndex == 0 ? true : false));
+                var choseService = new GroupService(textBoxSource.Text, textBoxDest.Text, Convert.ToInt32(textBoxTolerence.Text.Trim()), (comboBox1.SelectedIndex == 0 ? true : false));
                 await choseService.ExcuteGroup();
                 pictureBoxProcess.Visible = false;
                 labelProcess.Text = "挑拣完成！";

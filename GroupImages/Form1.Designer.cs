@@ -1,5 +1,5 @@
 ﻿
-namespace WindowsFormsApp1
+namespace GroupImages
 {
     partial class Form1
     {
