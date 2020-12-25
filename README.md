@@ -17,7 +17,7 @@ winForm应用程序，开发环境：.net5. vs2019 Preview 版本 16.9.0 Preview
 【该程序存在的缺陷】
 1.该程序在计算球面两点的弧长时，球的半径采用了一个固定的常数 6378137，实际上球半径会依据距离地心的不同的高度而不同，所以，这里并不精确。
 2.执行分组的算法采用冒泡法进行递归计算，运算量较大，算法还有很大的性能改进空间。
-3.该程序并没有进行大量的生产环境实战，仅仅算是一个勉强可以一用的示例。
+3.该程序并没有进行大量的生产环境实战。
 
 
 
@@ -37,4 +37,4 @@ It refers to calculating the earth arc length from the longitude and latitude in
 [defects in the procedure]
 1. When calculating the arc length of two points on the sphere, the radius of the ball adopts a fixed constant of 6378137. In fact, the radius of the ball varies with the height from the earth's center, so it is not accurate here.
 2. Bubble method is used for recursion calculation in the algorithm of executing grouping, which has a large amount of calculation, and there is still a lot of room for performance improvement.
-3. The program does not carry out a large number of production environment actual combat, just a barely usable example.
+3. The program does not carry out a large number of production environment actual combat.
