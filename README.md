@@ -19,6 +19,8 @@ winForm应用程序，开发环境：.net5. vs2019 Preview 版本 16.9.0 Preview
 2.执行分组的算法采用冒泡法进行递归计算，运算量较大，算法还有很大的性能改进空间。
 3.该程序并没有进行大量的生产环境实战。
 
+程序运行界面如下：
+![image](https://user-images.githubusercontent.com/46520648/155046808-2c739bc6-ad1e-4bdc-a14e-a5b4d5a903bf.png)
 
 
 Englishi below:
