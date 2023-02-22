@@ -2,6 +2,8 @@ winForm应用程序，开发环境：.net5. vs2019 Preview 版本 16.9.0 Preview
 # GroupImages
 把多张图片依据Gps的经纬度信息算出它们之间的距离，并按指定的距离容差进行分组。
 
+举例：比如，我们航拍了6000张照片放在一个文件夹下，现在需要把它们之间相距在200米内的分为同一组，相距200米以上的则划分为另一组。则通过本程序计算后，会把它们按200米的距离容差划分为了可能25个分组，并且为每个分组创建一个文件夹。
+
 有两种方式来读取gps信息：
 
 1.可以从pos文件信息进行读取图片文件的经纬度信息。
@@ -28,6 +30,9 @@ Englishi below:
 WinForm application, development environment: net5. Vs2019 preview version 16.9.0 preview 2.0
 
 The distance between the images is calculated according to the longitude and latitude information of GPS, and grouped according to the specified distance tolerance.
+
+For example, we took 6000 photos aerial and put them in a folder. Now we need to divide them into the same group within 200 meters, and divide them into another group with a distance of more than 200 meters. After calculation by this program, they will be divided into possible 25 groups according to the distance tolerance of 200 meters, and a folder will be created for each group.
+
 There are two ways to read GPS information:
 1. The longitude and latitude information of image file can be read from POS file information.
 POS file is required to be in CVS format or TXT format with half width comma as separator, and file column should contain 1. Full path of image file 2. Latitude information of double type 3. Longitude information of double type
